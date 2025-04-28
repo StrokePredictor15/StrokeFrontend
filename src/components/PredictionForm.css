@@ -1,0 +1,78 @@
+.prediction-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0f7fa; /* Updated to match firstPage background */
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  gap: 20px; /* Added spacing between form elements */
+}
+
+.prediction-form h1 {
+  font-size: 2.5rem;
+  color: #00796b; /* Updated to match firstPage heading color */
+  margin-bottom: 15px;
+}
+
+.prediction-form p {
+  font-size: 1.2rem;
+  color: #004d40; /* Updated to match firstPage text color */
+  margin-bottom: 25px;
+}
+
+.form {
+  width: 100%;
+  max-width: 450px; /* Adjusted width to match firstPage */
+}
+
+.form-group {
+  margin-bottom: 20px; /* Increased spacing for better layout */
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Added spacing between label and input/select */
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  color: #004d40; /* Updated label color */
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #b2dfdb; /* Updated border color */
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #ffffff; /* Ensures a clean input background */
+  margin-bottom: 10px; /* Added spacing below inputs */
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #00796b; /* Updated focus border color */
+  outline: none;
+  box-shadow: 0 0 8px rgba(0, 121, 107, 0.5); /* Updated focus shadow */
+}
+
+.submit-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #00796b; /* Updated button color */
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 20px; /* Added spacing above the submit button */
+}
+
+.submit-button:hover {
+  background-color: #004d40; /* Updated hover color */
+  transform: scale(1.05); /* Added hover effect */
+}
