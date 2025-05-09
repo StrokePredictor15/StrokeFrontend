@@ -1,33 +1,32 @@
-/* Global styles */
+/* Global styles for the application */
+
+html {
+    font-size: 16px; /* Base font size for good readability */
+}
+
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5; /* Light gray background */
-  color: #333; /* Dark text color */
+    font-size: 1rem; /* Default body font size (16px) */
+    line-height: 1.6; /* Improve readability with proper line height */
 }
 
-h1, h2, h3 {
-  color: #2c3e50; /* Consistent heading color */
+h1 {
+    font-size: 2.5rem; /* Larger font size for main headings */
+    line-height: 1.3;
 }
 
-button {
-  background-color: #3498db; /* Primary button color */
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
+h2 {
+    font-size: 2rem; /* Subheadings */
+    line-height: 1.4;
 }
 
-button:hover {
-  background-color: #2980b9; /* Darker shade on hover */
+h3 {
+    font-size: 1.75rem;
+    line-height: 1.5;
 }
 
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+p {
+    font-size: 1rem; /* Paragraph text */
+    line-height: 1.6;
 }
+
+/* Additional global styles can be added below */

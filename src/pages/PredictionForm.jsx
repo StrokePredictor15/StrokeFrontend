@@ -42,74 +42,94 @@ function PredictionForm() {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Stroke Risk Prediction</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Gender:</label>
-          <input type="radio" name="gender" value="Male" onChange={handleChange} /> Male
-          <input type="radio" name="gender" value="Female" onChange={handleChange} /> Female
-          <input type="radio" name="gender" value="Other" onChange={handleChange} /> Other
+    <div className="w3-container w3-padding">
+      <h1 className="w3-center">Stroke Risk Prediction</h1>
+      <form onSubmit={handleSubmit} className="w3-card w3-padding w3-round w3-light-grey">
+        <table className="w3-table">
+          <tbody>
+            <tr>
+              <td><label>Gender:</label></td>
+              <td>
+                <input type="radio" name="gender" value="Male" onChange={handleChange} /> Male
+                <input type="radio" name="gender" value="Female" onChange={handleChange} /> Female
+                <input type="radio" name="gender" value="Other" onChange={handleChange} /> Other
+              </td>
+            </tr>
+            <tr>
+              <td><label>Age:</label></td>
+              <td><input type="number" name="age" min="0" onChange={handleChange} required /></td>
+            </tr>
+            <tr>
+              <td><label>Hypertension:</label></td>
+              <td>
+                <input type="radio" name="hypertension" value="Yes" onChange={handleChange} /> Yes
+                <input type="radio" name="hypertension" value="No" onChange={handleChange} /> No
+              </td>
+            </tr>
+            <tr>
+              <td><label>Heart Disease:</label></td>
+              <td>
+                <input type="radio" name="heart_disease" value="Yes" onChange={handleChange} /> Yes
+                <input type="radio" name="heart_disease" value="No" onChange={handleChange} /> No
+              </td>
+            </tr>
+            <tr>
+              <td><label>Ever Married:</label></td>
+              <td>
+                <input type="radio" name="ever_married" value="Yes" onChange={handleChange} /> Yes
+                <input type="radio" name="ever_married" value="No" onChange={handleChange} /> No
+              </td>
+            </tr>
+            <tr>
+              <td><label>Work Type:</label></td>
+              <td>
+                <select name="work_type" onChange={handleChange} required>
+                  <option value="">Select</option>
+                  <option value="Private">Private</option>
+                  <option value="Self-employed">Self-employed</option>
+                  <option value="Govt_Job">Govt Job</option>
+                  <option value="Children">Children</option>
+                  <option value="Never_worked">Never worked</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td><label>Residence Type:</label></td>
+              <td>
+                <select name="residence_type" onChange={handleChange} required>
+                  <option value="">Select</option>
+                  <option value="Urban">Urban</option>
+                  <option value="Rural">Rural</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td><label>Avg Glucose Level:</label></td>
+              <td><input type="text" name="avg_glucose_level" onChange={handleChange} required /></td>
+            </tr>
+            <tr>
+              <td><label>BMI:</label></td>
+              <td><input type="text" name="bmi" onChange={handleChange} required /></td>
+            </tr>
+            <tr>
+              <td><label>Smoking Status:</label></td>
+              <td>
+                <select name="smoking_status" onChange={handleChange} required>
+                  <option value="">Select</option>
+                  <option value="formerly smoked">Formerly Smoked</option>
+                  <option value="never smoked">Never Smoked</option>
+                  <option value="smokes">Smokes</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div className="w3-center">
+          <button type="submit" className="w3-button w3-blue w3-round">Check Stroke Prediction</button>
         </div>
-        <div>
-          <label>Age:</label>
-          <input type="number" name="age" min="0" onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Hypertension:</label>
-          <input type="radio" name="hypertension" value="Yes" onChange={handleChange} /> Yes
-          <input type="radio" name="hypertension" value="No" onChange={handleChange} /> No
-        </div>
-        <div>
-          <label>Heart Disease:</label>
-          <input type="radio" name="heart_disease" value="Yes" onChange={handleChange} /> Yes
-          <input type="radio" name="heart_disease" value="No" onChange={handleChange} /> No
-        </div>
-        <div>
-          <label>Ever Married:</label>
-          <input type="radio" name="ever_married" value="Yes" onChange={handleChange} /> Yes
-          <input type="radio" name="ever_married" value="No" onChange={handleChange} /> No
-        </div>
-        <div>
-          <label>Work Type:</label>
-          <select name="work_type" onChange={handleChange} required>
-            <option value="">Select</option>
-            <option value="Private">Private</option>
-            <option value="Self-employed">Self-employed</option>
-            <option value="Govt_Job">Govt Job</option>
-            <option value="Children">Children</option>
-            <option value="Never_worked">Never worked</option>
-          </select>
-        </div>
-        <div>
-          <label>Residence Type:</label>
-          <select name="residence_type" onChange={handleChange} required>
-            <option value="">Select</option>
-            <option value="Urban">Urban</option>
-            <option value="Rural">Rural</option>
-          </select>
-        </div>
-        <div>
-          <label>Avg Glucose Level:</label>
-          <input type="text" name="avg_glucose_level" onChange={handleChange} required />
-        </div>
-        <div>
-          <label>BMI:</label>
-          <input type="text" name="bmi" onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Smoking Status:</label>
-          <select name="smoking_status" onChange={handleChange} required>
-            <option value="">Select</option>
-            <option value="formerly smoked">Formerly Smoked</option>
-            <option value="never smoked">Never Smoked</option>
-            <option value="smokes">Smokes</option>
-          </select>
-        </div>
-        <button type="submit">Check Stroke Prediction</button>
       </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error */}
-      {result && <p>{result}</p>}
+      {error && <p className="w3-text-red w3-center">{error}</p>} {/* Display error */}
+      {result && <p className="w3-text-green w3-center">{result}</p>}
     </div>
   );
 }

@@ -1,12 +1,31 @@
 const express = require('express');
 const cors = require('cors');
-
+const request = require('request');
 const app = express();
 const PORT = 5000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+
+
+
+
+
+app.get('/proxy-css', (req, res) => {
+  res.setHeader('Content-Type', 'text/css'); // Explicitly set MIME type
+  request('https://www.w3schools.com/lib/w3-theme-deep-orange.css').pipe(res);
+});
+app.get('/proxy-css-1', (req, res) => {
+  res.setHeader('Content-Type', 'text/css'); // Explicitly set MIME type
+  request('https://www.w3schools.com/w3css/4/w3pro.css').pipe(res);
+});
+app.get('/proxy-css-2', (req, res) => {
+  res.setHeader('Content-Type', 'text/css'); // Explicitly set MIME type
+  request('https://www.w3schools.com/w3css/4/w3.css').pipe(res);
+});
+
 
 // Routes
 app.post('/api/predict', (req, res) => {
