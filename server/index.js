@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const request = require('request');
+const fs = require('fs');
+const path = require('path');
 const app = express();
 const PORT = 5000;
 
@@ -48,6 +50,25 @@ app.post('/api/predict', (req, res) => {
   const prediction = riskScore >= 3 ? 'High Risk' : 'Low Risk';
 
   res.json({ message: `Stroke Risk: ${prediction}` });
+});
+
+app.post('/api/consultForm', (req, res) => {
+  const { name, age, symptoms, contact } = req.body;
+
+  if (!name || !age || !symptoms || !contact) {
+    return res.status(400).json({ message: 'Missing required fields.' });
+  }
+
+  const entry = `Name: ${name}, Age: ${age}, Symptoms: ${symptoms}, Contact: ${contact}\n`;
+  const filePath = path.join(__dirname, 'consultationRequests.txt');
+
+  fs.appendFile(filePath, entry, (err) => {
+    if (err) {
+      console.error('Error writing to file:', err);
+      return res.status(500).json({ message: 'Failed to save consultation request.' });
+    }
+    res.json({ message: 'Consultation request submitted successfully.' });
+  });
 });
 
 // Start server
