@@ -42,9 +42,8 @@ function PredictionForm() {
   };
 
   return (
-    <div className="w3-container w3-padding">
-      <h1 className="w3-center">Stroke Risk Prediction</h1>
-      <form onSubmit={handleSubmit} className="w3-card w3-padding w3-round w3-light-grey">
+<div className="w3-container w3-card w3-light-grey w3-padding-large w3-margin-top">      <h3 className="w3-center w3-text-blue">Stroke Risk Prediction</h3>
+      <form onSubmit={handleSubmit} className="w3-form">
         <table className="w3-table">
           <tbody>
             <tr>
