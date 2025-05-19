@@ -31,25 +31,39 @@ app.get('/proxy-css-2', (req, res) => {
 
 // Routes
 app.post('/api/predict', (req, res) => {
-  const formData = req.body;
+  let formData = req.body;
 
-  // Mock prediction logic
-  const { age, hypertension, heart_disease, avg_glucose_level, bmi } = formData;
+  // Convert Yes/No to 1/0 for specific fields in request body
+  const convertYN = (val) => val === 'Yes' ? 1 : 0;
+  formData.hypertension = convertYN(formData.hypertension);
+  formData.heart_disease = convertYN(formData.heart_disease);
+  // formData.ever_married = convertYN(formData.ever_married);
 
-  if (!age || !avg_glucose_level || !bmi) {
-    return res.status(400).json({ message: 'Missing required fields.' });
+  // Rename residence_type to Residence_type in request body
+  if ('residence_type' in formData) {
+    formData.Residence_type = formData.residence_type;
+    delete formData.residence_type;
   }
+  console.log('Prediction payload:', JSON.stringify(formData));
 
-  const riskScore =
-    (parseInt(age) > 50 ? 1 : 0) +
-    (hypertension === 'Yes' ? 1 : 0) +
-    (heart_disease === 'Yes' ? 1 : 0) +
-    (parseFloat(avg_glucose_level) > 140 ? 1 : 0) +
-    (parseFloat(bmi) > 25 ? 1 : 0);
-
-  const prediction = riskScore >= 3 ? 'High Risk' : 'Low Risk';
-
-  res.json({ message: `Stroke Risk: ${prediction}` });
+  // Call backend API and return its response
+  request.post(
+    {
+      url: 'http://127.0.0.1:8000/model/predict',
+      json: formData,
+      timeout: 10000
+    },
+    (error, response, body) => {
+      if (error) {
+        console.error('Error calling backend:', error);
+        return res.status(500).json({ message: 'Error calling prediction backend.' });
+      }
+      if (response && response.statusCode >= 400) {
+        return res.status(response.statusCode).json(body);
+      }
+      res.json(body);
+    }
+  );
 });
 
 app.post('/api/consultForm', (req, res) => {
