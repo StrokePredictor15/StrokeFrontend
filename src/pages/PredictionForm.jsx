@@ -14,7 +14,8 @@ function PredictionForm() {
     smoking_status: '',
   });
   const [result, setResult] = useState('');
-  const [error, setError] = useState(''); // Add error state
+  const [error, setError] = useState('');
+  const [predictionData, setPredictionData] = useState(null); // Store detailed response
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,8 +24,41 @@ function PredictionForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Reset error state
-    setResult(''); // Reset result state
+    setError('');
+    setResult('');
+    setPredictionData(null);
+
+    // Age validation
+    const ageNum = Number(formData.age);
+    if (isNaN(ageNum) || ageNum < 1 || ageNum > 110) {
+      setError('Age must be a number between 1 and 110.');
+      return;
+    }
+
+    // Avg Glucose Level validation
+    const glucoseNum = Number(formData.avg_glucose_level);
+    if (
+      isNaN(glucoseNum) ||
+      glucoseNum < 10 ||
+      glucoseNum > 1100
+    ) {
+      setError('Average glucose level must be a number between 10 and 1100.');
+      return;
+    }
+
+    // BMI validation
+    const bmiNum = Number(formData.bmi);
+    if (
+      isNaN(bmiNum) ||
+      bmiNum < 10 ||
+      bmiNum > 100
+    ) {
+      setError('BMI must be a number between 10 and 100.');
+      return;
+    }
+
+    console.log('Prediction payload:', formData);
+
     try {
       const response = await fetch('http://localhost:5000/api/predict', {
         method: 'POST',
@@ -35,14 +69,26 @@ function PredictionForm() {
         throw new Error('Failed to fetch prediction. Please try again.');
       }
       const data = await response.json();
-      setResult(data.message);
+
+      // If new API response format, display it
+      if (
+        data &&
+        typeof data.prediction !== 'undefined' &&
+        typeof data.stroke_chance_percent !== 'undefined'
+      ) {
+        setPredictionData(data);
+        setResult('');
+      } else {
+        setResult(data.message || 'Prediction complete.');
+      }
     } catch (error) {
       setError(error.message || 'Error occurred while predicting stroke risk.');
     }
   };
 
   return (
-<div className="w3-container w3-card w3-light-grey w3-padding-large w3-margin-top">      <h3 className="w3-center w3-text-blue">Stroke Risk Prediction</h3>
+    <div className="w3-container w3-card w3-light-grey w3-padding-large w3-margin-top">
+      <h3 className="w3-center w3-text-blue">Stroke Risk Prediction</h3>
       <form onSubmit={handleSubmit} className="w3-form">
         <table className="w3-table">
           <tbody>
@@ -127,8 +173,50 @@ function PredictionForm() {
           <button type="submit" className="w3-button w3-blue w3-round">Check Stroke Prediction</button>
         </div>
       </form>
-      {error && <p className="w3-text-red w3-center">{error}</p>} {/* Display error */}
+      {error && <p className="w3-text-red w3-center">{error}</p>}
       {result && <p className="w3-text-green w3-center">{result}</p>}
+      {predictionData && (
+        <div className="w3-panel w3-pale-green w3-border w3-margin-top">
+          <h4 className="w3-text-green">Prediction Result</h4>
+          <p>
+            <strong>Prediction:</strong>{' '}
+            {predictionData.prediction === 1 ? 'High Risk' : 'Low Risk'}
+          </p>
+          <p>
+            <strong>Stroke Chance Percent:</strong> {predictionData.stroke_chance_percent}%
+          </p>
+          <div>
+            <strong>Personalized Suggestion:</strong>
+            <ul style={{ listStyleType: 'disc', paddingLeft: '20px' }}>
+              {Array.isArray(predictionData.personalized_suggestion)
+                ? predictionData.personalized_suggestion.map((s, i) => (
+                    <li key={i}>{s}</li>
+                  ))
+                : <li>{predictionData.personalized_suggestion}</li>}
+            </ul>
+          </div>
+          <div>
+            <strong>Feature Importances:</strong>
+            <table className="w3-table w3-bordered w3-small w3-margin-top">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Importance (%)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Array.isArray(predictionData.feature_importances) &&
+                  predictionData.feature_importances.map((f, i) => (
+                    <tr key={i}>
+                      <td>{f.feature}</td>
+                      <td>{f.importance}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
